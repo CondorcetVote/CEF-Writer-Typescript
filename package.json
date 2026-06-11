@@ -1,6 +1,6 @@
 {
   "name": "@condorcet.vote/cef-writer",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Streaming TypeScript writer that produces valid Condorcet Election Format (CEF) documents line by line. A faithful port of CondorcetVote/CEF-Writer.",
   "type": "module",
   "main": "dist/index.js",
@@ -50,7 +50,8 @@
     "condorcet-election-format",
     "voting",
     "writer",
-    "typescript"
+    "typescript",
+    "condorcet.vote"
   ],
   "author": "Julien Boudry",
   "license": "MIT",
