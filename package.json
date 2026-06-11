@@ -49,7 +49,7 @@
     "writer",
     "typescript"
   ],
-  "author": "Condorcet Vote",
+  "author": "Julien Boudry",
   "license": "MIT",
   "repository": {
     "type": "git",
