@@ -166,7 +166,7 @@ export class Cef {
       throw new InvalidWriterStateException(
         'Writing to a file path is not available in this environment (browser?). ' +
           'Use StringBuffer instead, or pass a custom WriteTarget. In Node.js, ' +
-          "import from 'cef-writer' (not 'cef-writer/browser')."
+          "import from '@condorcet.vote/cef-writer' (not '@condorcet.vote/cef-writer/browser')."
       );
     }
 

@@ -12,7 +12,7 @@ import type { WriteTarget } from './Cef';
  *
  * @example
  * ```typescript
- * import { Cef, FileWriteTarget } from 'cef-writer';
+ * import { Cef, FileWriteTarget } from '@condorcet.vote/cef-writer';
  *
  * const target = new FileWriteTarget('/tmp/election.cvotes');
  * const cef = new Cef({ file: target });

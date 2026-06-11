@@ -21,13 +21,13 @@ For file output in Node.js, the native `node:fs` API is used.
 ## Installation
 
 ```bash
-npm install cef-writer
+npm install @condorcet.vote/cef-writer
 # or
-yarn add cef-writer
+yarn add @condorcet.vote/cef-writer
 # or
-pnpm add cef-writer
+pnpm add @condorcet.vote/cef-writer
 # or
-bun add cef-writer
+bun add @condorcet.vote/cef-writer
 ```
 
 ## Quick start
@@ -40,7 +40,7 @@ import {
   CandidatesParameter,
   ImplicitRankingParameter,
   WeightAllowedParameter,
-} from 'cef-writer';
+} from '@condorcet.vote/cef-writer';
 
 const cef = new Cef({ file: '/tmp/election.cvotes' });
 
@@ -79,7 +79,7 @@ import {
   VoteLine,
   CandidatesParameter,
   StringBuffer,
-} from 'cef-writer';
+} from '@condorcet.vote/cef-writer';
 
 // In browser: use StringBuffer to generate CEF as a string
 const buffer = new StringBuffer();
@@ -136,7 +136,7 @@ The "string passed by reference" target of the PHP original maps to the
 `StringBuffer` value object — the idiomatic TypeScript stand-in:
 
 ```typescript
-import { Cef, CandidatesParameter, StringBuffer } from 'cef-writer';
+import { Cef, CandidatesParameter, StringBuffer } from '@condorcet.vote/cef-writer';
 
 const buffer = new StringBuffer();
 const cef = new Cef({ string: buffer });
@@ -217,7 +217,7 @@ A ranking can be built, validated and rendered on its own through the `Ranking`
 class — the same abstraction `VoteLine` uses internally:
 
 ```typescript
-import { Ranking, VoteLine } from 'cef-writer';
+import { Ranking, VoteLine } from '@condorcet.vote/cef-writer';
 
 const ranking = new Ranking([['Alice'], ['Bob', 'Charlie']]); // [] => /EMPTY_RANKING/
 Ranking.fromString('Alice > Bob = Charlie'); // or parse a ranking-only string

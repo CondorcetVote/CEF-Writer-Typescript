@@ -1,11 +1,13 @@
 {
-  "name": "cef-writer",
+  "name": "@condorcet.vote/cef-writer",
   "version": "1.2.0",
   "description": "Streaming TypeScript writer that produces valid Condorcet Election Format (CEF) documents line by line. A faithful port of CondorcetVote/CEF-Writer.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "sideEffects": ["./dist/index.node.js"],
+  "sideEffects": [
+    "./dist/index.node.js"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -54,7 +56,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CondorcetVote/CEF-Writer-Typescript.git"
+    "url": "git+https://github.com/CondorcetVote/CEF-Writer-Typescript.git"
   },
   "bugs": {
     "url": "https://github.com/CondorcetVote/CEF-Writer-Typescript/issues"

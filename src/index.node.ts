@@ -4,7 +4,7 @@
  *
  * This is the Node.js entry point with full file system support via
  * {@link FileWriteTarget}. For browser-only usage, import from
- * `cef-writer/browser` which excludes Node.js dependencies.
+ * `@condorcet.vote/cef-writer/browser` which excludes Node.js dependencies.
  *
  * TypeScript port of {@link https://github.com/CondorcetVote/CEF-Writer | CondorcetVote/CEF-Writer}.
  */
