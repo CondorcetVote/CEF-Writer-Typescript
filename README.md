@@ -12,7 +12,11 @@ This is a faithful TypeScript port of the PHP library [CondorcetVote/CEF-Writer]
 
 ## Requirements
 
-- Node.js 16+ or Bun. The file target uses the Node `fs` API (`node:fs`).
+- Node.js 24+ (ES2024, ESM only)
+- Bun (compatible with modern versions)
+- Modern browsers with ES2024 support (Chrome 127+, Firefox 133+, Safari 18+, Edge 127+)
+
+For file output in Node.js, the native `node:fs` API is used.
 
 ## Installation
 
@@ -65,6 +69,58 @@ Charlie > Alice = Bob ^7 * 8
 /EMPTY_RANKING/
 ```
 
+## Browser usage
+
+The library is distributed as modern ESM and can be used in browser environments. File operations (`FileWriteTarget`) require Node.js, but you can use `StringBuffer` or implement a custom `WriteTarget` for browser-based workflows:
+
+```typescript
+import {
+  Cef,
+  VoteLine,
+  CandidatesParameter,
+  StringBuffer,
+} from 'cef-writer';
+
+// In browser: use StringBuffer to generate CEF as a string
+const buffer = new StringBuffer();
+const cef = new Cef({ string: buffer });
+
+cef.addParameter(new CandidatesParameter(['Alice', 'Bob', 'Charlie']));
+cef.addVote(VoteLine.fromRanking([['Alice'], ['Bob'], ['Charlie']]));
+
+const csvContent = buffer.toString();
+console.log(csvContent);
+
+// Download the file client-side
+const blob = new Blob([csvContent], { type: 'text/plain' });
+const url = URL.createObjectURL(blob);
+const link = document.createElement('a');
+link.href = url;
+link.download = 'election.cvotes';
+link.click();
+```
+
+Or implement your own `WriteTarget` for custom backends:
+
+```typescript
+class CustomTarget implements WriteTarget {
+  private lines: string[] = [];
+
+  write(chunk: string): number {
+    this.lines.push(chunk);
+    return chunk.length;
+  }
+
+  getLinesArray(): string[] {
+    return this.lines;
+  }
+}
+
+const target = new CustomTarget();
+const cef = new Cef({ file: target });
+// ... add parameters and votes
+```
+
 ## Output targets
 
 The `Cef` constructor takes an options object with **exactly one** of the
@@ -72,7 +128,7 @@ following keys:
 
 | Option | Type | Behavior |
 | --- | --- | --- |
-| `file: path` | `string` | A filesystem path, opened with mode `w` (created/truncated). |
+| `file: path` | `string` | A filesystem path, opened with mode `w` (created/truncated). **Node.js only.** |
 | `file: target` | `WriteTarget` | Any object with `write(chunk: string): number` (e.g. an already-open `FileWriteTarget`); used as-is. |
 | `string: buffer` | `StringBuffer` | Each line is appended to the supplied buffer. |
 

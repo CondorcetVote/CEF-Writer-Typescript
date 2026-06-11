@@ -25,7 +25,7 @@ export class CommentLine {
       return '#';
     }
 
-    const needsLeadingSpace = autoFormat && this.text[0] !== ' ';
+    const needsLeadingSpace = autoFormat && !this.text.startsWith(' ');
 
     return '#' + (needsLeadingSpace ? ' ' : '') + this.text;
   }

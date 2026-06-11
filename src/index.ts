@@ -5,7 +5,8 @@
  * TypeScript port of {@link https://github.com/CondorcetVote/CEF-Writer | CondorcetVote/CEF-Writer}.
  */
 
-export { Cef, FileWriteTarget, StringBuffer, type CefOptions, type WriteTarget } from './Cef';
+export { Cef, StringBuffer, type CefOptions, type WriteTarget } from './Cef';
+export { FileWriteTarget } from './FileWriteTarget';
 export { CefFormat } from './CefFormat';
 export { CommentLine } from './CommentLine';
 export { Ranking } from './Ranking';

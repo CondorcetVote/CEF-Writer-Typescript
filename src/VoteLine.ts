@@ -114,7 +114,7 @@ export class VoteLine {
    * @throws {CefFormatException} on any specification violation
    */
   public static fromRanking(
-    ranking: ReadonlyArray<readonly string[]> | Ranking,
+    ranking: readonly (readonly string[])[] | Ranking,
     options: {
       tags?: readonly string[];
       weight?: number | null;

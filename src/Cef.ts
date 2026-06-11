@@ -1,5 +1,3 @@
-import * as fs from 'node:fs';
-
 import { CommentLine } from './CommentLine';
 import {
   CefWriteException,
@@ -7,6 +5,7 @@ import {
   InvalidWriterStateException,
   ReservedCharacterException,
 } from './Exception';
+import { FileWriteTarget } from './FileWriteTarget';
 import type { ParameterInterface } from './Parameter';
 import { VoteLine } from './VoteLine';
 
@@ -38,32 +37,6 @@ export class StringBuffer {
 
   public toString(): string {
     return this.content;
-  }
-}
-
-/**
- * A {@link WriteTarget} backed by a real file descriptor, opened in truncating
- * write mode. Created automatically when a filesystem path is passed to the
- * {@link Cef} constructor.
- */
-export class FileWriteTarget implements WriteTarget {
-  private readonly fd: number;
-
-  private closed = false;
-
-  public constructor(path: string) {
-    this.fd = fs.openSync(path, 'w');
-  }
-
-  public write(chunk: string): number {
-    return fs.writeSync(this.fd, Buffer.from(chunk, 'utf-8'));
-  }
-
-  public close(): void {
-    if (!this.closed) {
-      fs.closeSync(this.fd);
-      this.closed = true;
-    }
   }
 }
 
@@ -132,7 +105,7 @@ export class Cef {
   /**
    * Exactly one of `options.file` or `options.string` must be provided.
    *
-   * @throws {CefFormatException}
+   * @throws {InvalidWriterStateException}
    */
   public constructor(options: CefOptions = {}) {
     const hasFile = options.file !== undefined;
@@ -146,22 +119,38 @@ export class Cef {
 
     if (hasString) {
       this.file = null;
-      this.stringTarget = options.string as StringBuffer;
+      this.stringTarget = options.string!;
 
       return;
     }
 
     this.stringTarget = null;
 
-    const file = options.file as string | WriteTarget;
+    const file = options.file!;
 
     if (typeof file === 'string') {
-      this.file = new FileWriteTarget(file);
+      this.file = this.createFileWriteTarget(file);
     } else if (file !== null && typeof file === 'object' && typeof file.write === 'function') {
       this.file = file;
     } else {
       throw new InvalidWriterStateException(
         'The file option must be a string path or a WriteTarget.'
+      );
+    }
+  }
+
+  /**
+   * Create a FileWriteTarget from a path.
+   *
+   * @throws {InvalidWriterStateException} if running in a browser (where node:fs is unavailable)
+   */
+  private createFileWriteTarget(path: string): WriteTarget {
+    try {
+      return new FileWriteTarget(path);
+    } catch {
+      throw new InvalidWriterStateException(
+        'FileWriteTarget is not available in this environment (browser?). ' +
+          'Use StringBuffer instead or pass a custom WriteTarget to write to a file in Node.js.'
       );
     }
   }
@@ -239,7 +228,7 @@ export class Cef {
       );
     }
 
-    if (cleaned[0] === '#') {
+    if (cleaned.startsWith('#')) {
       throw new ReservedCharacterException(
         'Raw vote line cannot start with "#"; that would be a comment or parameter line, not a vote.'
       );
@@ -354,7 +343,7 @@ export class Cef {
       return '#' + comment;
     }
 
-    const needsLeadingSpace = comment === '' || comment[0] !== ' ';
+    const needsLeadingSpace = comment === '' || !comment.startsWith(' ');
 
     return ' #' + (needsLeadingSpace ? ' ' : '') + comment;
   }

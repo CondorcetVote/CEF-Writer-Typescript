@@ -14,7 +14,7 @@ import { DuplicateCandidateException, InvalidValueException } from './Exception'
  * with {@link format} (or by casting to `string` via {@link toString}).
  */
 export class Ranking {
-  public readonly ranks: ReadonlyArray<readonly string[]>;
+  public readonly ranks: readonly (readonly string[])[];
 
   /**
    * @param ranks Ordered ranks; each inner list is non-empty. Pass `[]` for
@@ -22,7 +22,7 @@ export class Ranking {
    *
    * @throws {CefFormatException} on any specification violation
    */
-  public constructor(ranks: ReadonlyArray<readonly string[]>) {
+  public constructor(ranks: readonly (readonly string[])[]) {
     this.ranks = Ranking.validate(ranks);
   }
 
@@ -152,7 +152,7 @@ export class Ranking {
   /**
    * @throws {CefFormatException}
    */
-  private static validate(ranks: ReadonlyArray<readonly string[]>): string[][] {
+  private static validate(ranks: readonly (readonly string[])[]): string[][] {
     const cleaned: string[][] = [];
     const seen = new Set<string>();
 
