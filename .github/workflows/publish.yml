@@ -34,8 +34,11 @@ jobs:
       - name: Build
         run: bun run build
 
+      # OIDC Trusted Publishing needs a recent npm CLI (>= 11.5.1); the runner
+      # ships an older one. No token is used: authentication happens via the
+      # short-lived OIDC id-token, and provenance is attached automatically.
+      - name: Update npm for trusted publishing
+        run: npm install -g npm@latest
+
       - name: Publish to npm
         run: npm publish
-        env:
-          NPM_CONFIG_PROVENANCE: true
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
