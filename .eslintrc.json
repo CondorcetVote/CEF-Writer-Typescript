@@ -16,7 +16,7 @@
     "es2020": true
   },
   "rules": {
-    "@typescript-eslint/explicit-function-return-types": [
+    "@typescript-eslint/explicit-function-return-type": [
       "warn",
       {
         "allowExpressions": true,
