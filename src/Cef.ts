@@ -5,7 +5,6 @@ import {
   InvalidWriterStateException,
   ReservedCharacterException,
 } from './Exception';
-import { FileWriteTarget } from './FileWriteTarget';
 import type { ParameterInterface } from './Parameter';
 import { VoteLine } from './VoteLine';
 
@@ -83,6 +82,18 @@ export interface CefOptions {
  * most compact form is emitted.
  */
 export class Cef {
+  /**
+   * Factory that turns a filesystem path into a {@link WriteTarget}.
+   *
+   * The browser entry point leaves this `null`, so the browser bundle never
+   * references {@link FileWriteTarget} (and therefore never pulls in `node:fs`).
+   * The Node entry point wires it to {@link FileWriteTarget}, enabling the
+   * `new Cef({ file: '/some/path' })` convenience.
+   *
+   * @internal
+   */
+  public static fileWriteTargetFactory: ((path: string) => WriteTarget) | null = null;
+
   public autoFormat = true;
 
   /**
@@ -142,19 +153,24 @@ export class Cef {
   }
 
   /**
-   * Create a FileWriteTarget from a path.
+   * Create a file-backed {@link WriteTarget} from a path, via the factory the
+   * Node entry point registers in {@link Cef.fileWriteTargetFactory}.
    *
-   * @throws {InvalidWriterStateException} if running in a browser (where node:fs is unavailable)
+   * @throws {InvalidWriterStateException} when no factory is registered — i.e.
+   *   in the browser bundle, where filesystem access is unavailable.
    */
   private createFileWriteTarget(path: string): WriteTarget {
-    try {
-      return new FileWriteTarget(path);
-    } catch {
+    const factory = Cef.fileWriteTargetFactory;
+
+    if (factory === null) {
       throw new InvalidWriterStateException(
-        'FileWriteTarget is not available in this environment (browser?). ' +
-          'Use StringBuffer instead or pass a custom WriteTarget to write to a file in Node.js.'
+        'Writing to a file path is not available in this environment (browser?). ' +
+          'Use StringBuffer instead, or pass a custom WriteTarget. In Node.js, ' +
+          "import from 'cef-writer' (not 'cef-writer/browser')."
       );
     }
+
+    return factory(path);
   }
 
   /**

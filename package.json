@@ -1,11 +1,11 @@
 {
   "name": "cef-writer",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Streaming TypeScript writer that produces valid Condorcet Election Format (CEF) documents line by line. A faithful port of CondorcetVote/CEF-Writer.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "sideEffects": false,
+  "sideEffects": ["./dist/index.node.js"],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -23,6 +23,7 @@
   },
   "files": [
     "dist",
+    "src",
     "README.md",
     "LICENSE"
   ],
@@ -31,13 +32,13 @@
     "dev": "tsc --watch",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
-    "lint": "eslint src --ext .ts",
-    "lint:fix": "eslint src --ext .ts --fix",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
     "type-check": "tsc --noEmit",
     "test": "bun test",
-    "prepublish": "npm run lint && npm run type-check && npm run build"
+    "prepublishOnly": "npm run lint && npm run type-check && npm run build"
   },
   "packageManager": "bun@latest",
   "keywords": [
@@ -60,22 +61,17 @@
   },
   "homepage": "https://github.com/CondorcetVote/CEF-Writer-Typescript#readme",
   "devDependencies": {
-    "@eslint/js": "10.0.1",
+    "@eslint/js": "^10.0.0",
     "@types/bun": "1.3.14",
     "@types/node": "^22.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
-    "eslint": "^9.0.0",
+    "eslint": "^10.4.1",
     "prettier": "^3.0.0",
     "typescript": "^5.6.0",
     "typescript-eslint": "8.61.0"
   },
   "engines": {
     "node": ">=24.0.0"
-  },
-  "_comment": {
-    "dev-setup": "For development, use Bun: bun install && bun run dev",
-    "runtime": "Requires Node.js 24+ (ESM, no CommonJS legacy support)",
-    "users": "End users can use npm, yarn, pnpm, or bun with Node.js 24+"
   }
 }
