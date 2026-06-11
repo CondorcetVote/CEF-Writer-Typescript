@@ -4,11 +4,6 @@ npm-debug.log
 yarn-error.log
 bun.lockb
 
-# Build output
-dist/
-build/
-*.tsbuildinfo
-
 # Development
 .env
 .env.local

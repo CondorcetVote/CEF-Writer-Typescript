@@ -49,16 +49,16 @@
     "writer",
     "typescript"
   ],
-  "author": "",
+  "author": "Condorcet Vote",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/username/cef-writer.git"
+    "url": "https://github.com/CondorcetVote/CEF-Writer-Typescript.git"
   },
   "bugs": {
-    "url": "https://github.com/username/cef-writer/issues"
+    "url": "https://github.com/CondorcetVote/CEF-Writer-Typescript/issues"
   },
-  "homepage": "https://github.com/username/cef-writer#readme",
+  "homepage": "https://github.com/CondorcetVote/CEF-Writer-Typescript#readme",
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@types/bun": "1.3.14",
