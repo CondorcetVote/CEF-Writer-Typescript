@@ -1,0 +1,8 @@
+# Bun configuration for CEF Writer
+
+[install]
+# Use exact versions for deterministic builds
+exact = true
+
+# Prefer bun:sqlite for database operations if needed
+preload = []

@@ -1,0 +1,63 @@
+{
+  "name": "cef-writer",
+  "version": "0.1.0",
+  "description": "A TypeScript library for CEF writing",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "type-check": "tsc --noEmit",
+    "test": "node --test dist/**/*.test.js",
+    "prepublish": "npm run lint && npm run type-check && npm run build"
+  },
+  "packageManager": "bun@latest",
+  "keywords": [
+    "cef",
+    "writer",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/cef-writer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/username/cef-writer/issues"
+  },
+  "homepage": "https://github.com/username/cef-writer#readme",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "_comment": {
+    "dev-setup": "For development, use Bun: bun install && bun run dev",
+    "users": "End users can use npm, yarn, pnpm, or bun"
+  }
+}
