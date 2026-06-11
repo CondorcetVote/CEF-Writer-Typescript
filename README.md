@@ -1,5 +1,9 @@
 # CEF Writer Typescript
 
+[![npm version](https://img.shields.io/npm/v/@condorcet.vote/cef-writer.svg)](https://www.npmjs.com/package/@condorcet.vote/cef-writer)
+[![CI](https://github.com/CondorcetVote/CEF-Writer-Typescript/actions/workflows/ci.yml/badge.svg)](https://github.com/CondorcetVote/CEF-Writer-Typescript/actions/workflows/ci.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+
 A TypeScript library that streams valid [Condorcet Election Format](https://github.com/CondorcetVote/CondorcetElectionFormat) (CEF) documents to a file or string buffer with a friendly object API.
 
 This is a faithful TypeScript port of the PHP library [CondorcetVote/CEF-Writer](https://github.com/CondorcetVote/CEF-Writer): same public API, same architecture, same guarantees.
