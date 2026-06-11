@@ -1,34 +1,8 @@
 /**
- * CEF Writer — a TypeScript library that streams valid Condorcet Election
- * Format (CEF) documents to a file or string buffer with a friendly object API.
+ * CEF Writer — default export for Node.js environments.
  *
- * TypeScript port of {@link https://github.com/CondorcetVote/CEF-Writer | CondorcetVote/CEF-Writer}.
+ * For browser usage, import from `cef-writer/browser` instead.
+ * See {@link https://github.com/CondorcetVote/CEF-Writer-Typescript#browser-usage | browser usage documentation}.
  */
 
-export { Cef, StringBuffer, type CefOptions, type WriteTarget } from './Cef';
-export { FileWriteTarget } from './FileWriteTarget';
-export { CefFormat } from './CefFormat';
-export { CommentLine } from './CommentLine';
-export { Ranking } from './Ranking';
-export { VoteLine } from './VoteLine';
-
-export {
-  CefFormatException,
-  CefWriteException,
-  DuplicateCandidateException,
-  InvalidUtf8Exception,
-  InvalidValueException,
-  InvalidWriterStateException,
-  ReservedCharacterException,
-} from './Exception';
-
-export {
-  CandidatesParameter,
-  CustomParameter,
-  ImplicitRankingParameter,
-  NumberOfSeatsParameter,
-  StandardParameter,
-  VotingMethodsParameter,
-  WeightAllowedParameter,
-  type ParameterInterface,
-} from './Parameter';
+export * from './index.node';
