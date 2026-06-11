@@ -1,8 +1,9 @@
 name: Publish to npm
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   publish:
@@ -13,6 +14,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+
+      # Fail fast if someone pushes a tag whose version doesn't match
+      # package.json (e.g. tag v1.3.0 while package.json still says 1.2.0).
+      - name: Verify tag matches package.json version
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          PKG_VERSION="$(node -p "require('./package.json').version")"
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "::error::Tag '$GITHUB_REF_NAME' does not match package.json version '$PKG_VERSION'."
+            exit 1
+          fi
 
       - name: Install Bun
         uses: oven-sh/setup-bun@v2
@@ -38,7 +50,7 @@ jobs:
       # ships an older one. No token is used: authentication happens via the
       # short-lived OIDC id-token, and provenance is attached automatically.
       - name: Update npm for trusted publishing
-        run: npm install -g npm@latest
+        run: sudo npm install -g npm@latest
 
       - name: Publish to npm
         run: npm publish

@@ -1,6 +1,6 @@
 {
   "name": "@condorcet.vote/cef-writer",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Streaming TypeScript writer that produces valid Condorcet Election Format (CEF) documents line by line. A faithful port of CondorcetVote/CEF-Writer.",
   "type": "module",
   "main": "dist/index.js",
