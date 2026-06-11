@@ -119,6 +119,7 @@ export class Cef {
 
     if (hasString) {
       this.file = null;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.stringTarget = options.string!;
 
       return;
@@ -126,11 +127,12 @@ export class Cef {
 
     this.stringTarget = null;
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const file = options.file!;
 
     if (typeof file === 'string') {
       this.file = this.createFileWriteTarget(file);
-    } else if (file !== null && typeof file === 'object' && typeof file.write === 'function') {
+    } else if (typeof file === 'object' && typeof file.write === 'function') {
       this.file = file;
     } else {
       throw new InvalidWriterStateException(
@@ -359,7 +361,7 @@ export class Cef {
         written = this.file.write(line);
       } catch (error) {
         throw new CefWriteException(
-          `Failed to write ${expected} bytes to the file target. ` +
+          `Failed to write ${String(expected)} bytes to the file target. ` +
             'The underlying handle may be closed, read-only, or out of space.',
           { cause: error }
         );
@@ -367,7 +369,7 @@ export class Cef {
 
       if (written < expected) {
         throw new CefWriteException(
-          `Failed to write ${expected} bytes to the file target (write returned ${written}). ` +
+          `Failed to write ${String(expected)} bytes to the file target (write returned ${String(written)}). ` +
             'The underlying handle may be closed, read-only, or out of space.'
         );
       }

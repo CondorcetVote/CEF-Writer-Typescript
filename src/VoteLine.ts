@@ -269,10 +269,12 @@ export class VoteLine {
     if (matches !== null) {
       work = matches[1].trim();
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (matches[2] !== undefined) {
         weight = Number.parseInt(matches[2], 10);
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (matches[3] !== undefined) {
         quantifier = Number.parseInt(matches[3], 10);
       }
@@ -356,11 +358,11 @@ export class VoteLine {
     line += ranking;
 
     if (this.weight !== null) {
-      line += autoFormat ? ' ^' + this.weight : '^' + this.weight;
+      line += autoFormat ? ' ^' + String(this.weight) : '^' + String(this.weight);
     }
 
     if (this.quantifier !== null) {
-      line += autoFormat ? ' * ' + this.quantifier : '*' + this.quantifier;
+      line += autoFormat ? ' * ' + String(this.quantifier) : '*' + String(this.quantifier);
     }
 
     return line;

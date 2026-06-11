@@ -158,7 +158,7 @@ export class Ranking {
 
     ranks.forEach((rank, rankIndex) => {
       if (rank.length === 0) {
-        throw new InvalidValueException(`Rank #${rankIndex + 1} is empty.`);
+        throw new InvalidValueException(`Rank #${String(rankIndex + 1)} is empty.`);
       }
 
       const cleanedRank: string[] = [];

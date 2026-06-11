@@ -7,18 +7,18 @@ import {
 /**
  * Internal helpers shared across the writer and the value objects.
  *
- * The class is final and stateless: it only exposes static utilities that
- * encode rules from the CEF specification (reserved characters, blank-ballot
- * sentinel, etc.).
+ * A namespace of static utilities that encode rules from the CEF specification
+ * (reserved characters, blank-ballot sentinel, etc.).
  *
  * @internal
  */
-export class CefFormat {
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace CefFormat {
   /**
    * Characters that the specification reserves for syntactic use and that
    * therefore must never appear inside any user-supplied value.
    */
-  public static readonly RESERVED_CHARACTERS: readonly string[] = [
+  export const RESERVED_CHARACTERS: readonly string[] = [
     '>',
     '=',
     ';',
@@ -32,16 +32,12 @@ export class CefFormat {
   /**
    * Sentinel value emitted as the whole ranking of a blank ballot.
    */
-  public static readonly EMPTY_RANKING = '/EMPTY_RANKING/';
+  export const EMPTY_RANKING = '/EMPTY_RANKING/';
 
   /**
    * Tag/ranking separator on a vote line.
    */
-  public static readonly TAGS_SEPARATOR = '||';
-
-  private constructor() {
-    // Static-only utility class.
-  }
+  export const TAGS_SEPARATOR = '||';
 
   /**
    * Reject any value that contains a reserved character or a line break. Empty
@@ -50,12 +46,12 @@ export class CefFormat {
    *
    * @throws {CefFormatException}
    */
-  public static assertValueIsClean(value: string, context: string): void {
+  export function assertValueIsClean(value: string, context: string): void {
     if (value === '') {
       throw new InvalidValueException(`${context} cannot be empty.`);
     }
 
-    CefFormat.assertNoReservedNorLineBreak(value, context);
+    assertNoReservedNorLineBreak(value, context);
   }
 
   /**
@@ -65,10 +61,10 @@ export class CefFormat {
    *
    * @throws {CefFormatException}
    */
-  public static assertNoReservedNorLineBreak(value: string, context: string): void {
-    CefFormat.assertSafeText(value, context);
+  export function assertNoReservedNorLineBreak(value: string, context: string): void {
+    assertSafeText(value, context);
 
-    for (const reserved of CefFormat.RESERVED_CHARACTERS) {
+    for (const reserved of RESERVED_CHARACTERS) {
       if (value.includes(reserved)) {
         throw new ReservedCharacterException(
           `${context} cannot contain the reserved character "${reserved}".`
@@ -83,8 +79,8 @@ export class CefFormat {
    *
    * @throws {CefFormatException}
    */
-  public static assertSingleLine(value: string, context: string): void {
-    CefFormat.assertSafeText(value, context);
+  export function assertSingleLine(value: string, context: string): void {
+    assertSafeText(value, context);
   }
 
   /**
@@ -96,10 +92,10 @@ export class CefFormat {
    *
    * @throws {CefFormatException}
    */
-  public static assertNoTagSeparator(value: string, context: string): void {
-    if (value.includes(CefFormat.TAGS_SEPARATOR)) {
+  export function assertNoTagSeparator(value: string, context: string): void {
+    if (value.includes(TAGS_SEPARATOR)) {
       throw new ReservedCharacterException(
-        `${context} cannot contain the "${CefFormat.TAGS_SEPARATOR}" tag separator.`
+        `${context} cannot contain the "${TAGS_SEPARATOR}" tag separator.`
       );
     }
   }
@@ -114,8 +110,8 @@ export class CefFormat {
    *
    * @throws {CefFormatException}
    */
-  private static assertSafeText(value: string, context: string): void {
-    if (!CefFormat.isWellFormedUtf16(value)) {
+  function assertSafeText(value: string, context: string): void {
+    if (!isWellFormedUtf16(value)) {
       throw new InvalidUtf8Exception(`${context} contains an invalid UTF-8 byte sequence.`);
     }
 
@@ -132,7 +128,7 @@ export class CefFormat {
    * Return `true` when every UTF-16 surrogate in `value` is correctly paired,
    * i.e. the string can be encoded to well-formed UTF-8.
    */
-  private static isWellFormedUtf16(value: string): boolean {
+  function isWellFormedUtf16(value: string): boolean {
     for (let i = 0; i < value.length; i++) {
       const code = value.charCodeAt(i);
 
